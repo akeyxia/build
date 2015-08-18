@@ -1,0 +1,92 @@
+include Rules_ip31.make
+
+.PHONY:	all clean help linux linux_clean linux_install install u-boot u-boot_clean u-boot_install
+
+#==============================================================================
+# Build everything rebuildable.
+#==============================================================================
+all: linux dtb u-boot
+
+#==============================================================================
+# Install everything
+#==============================================================================
+install: linux_install dtb_install u-boot_install
+
+#==============================================================================
+# Clean up all targets.
+#==============================================================================
+clean: linux_clean u-boot_clean
+
+#==============================================================================
+# A help message target.
+#==============================================================================
+help:
+	@echo
+	@echo "Available build targets are  :"
+	@echo
+	@echo "    linux                          : Build Linux kernel uImage and module"
+	@echo "    linux_clean                    : Remove generated Linux kernel files"
+	@echo "    linux_install                  : Install kernel binary and  modules"
+	@echo
+	@echo "    u-boot                         : Build the u-boot boot loader"
+	@echo "    u-boot_clean                   : Remove generated u-boot files"
+	@echo "    u-boot_install                 : Install the u-boot image"
+	@echo
+	@echo "    all                            : Rebuild everything"
+	@echo "    clean                          : Remove all generated files"
+	@echo
+	@echo "    install                        : Install all the targets in "
+	@echo
+
+#==============================================================================
+# Build the Linux kernel. Also, an explicit cleanup target is defined.
+#==============================================================================
+linux:
+	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) ARCH=arm $(DEFAULT_LINUXKERNEL_CONFIG)
+	cd $(LINUXKERNEL_INSTALL_DIR); pwd ; ./scripts/kconfig/merge_config.sh -m .config ip31_config/ip31.cfg 
+	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) olddefconfig ARCH=arm
+	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) zImage
+	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) ${IP31_BOARD}.dtb
+	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) modules
+
+linux_clean:
+	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) mrproper
+	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) clean
+
+linux_install:
+	install -d $(EXEC_DIR)/boot
+	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/zImage $(EXEC_DIR)/boot
+	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${IP31_BOARD}.dtb $(EXEC_DIR)/boot
+	sudo install  $(LINUXKERNEL_INSTALL_DIR)/vmlinux $(EXEC_DIR)/boot
+	sudo install  $(LINUXKERNEL_INSTALL_DIR)/System.map $(EXEC_DIR)/boot
+	sudo $(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) INSTALL_MOD_PATH=$(EXEC_DIR)/ modules_install
+
+#==============================================================================
+# Build dtb[s]. Also, an explicit cleanup target is defined.
+#==============================================================================
+dtb:
+	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) ${IP31_BOARD}.dtb
+
+dtb_install:
+	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${IP31_BOARD}.dtb $(EXEC_DIR)/boot
+
+dtbs:
+	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) dtbs
+dtbs_install:
+	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/*.dtb $(EXEC_DIR)/boot
+
+#==============================================================================
+# Build u-boot. Also, an explicit cleanup target is defined.
+#==============================================================================
+u-boot:
+	$(MAKE) -C $(UBOOT_INSTALL_DIR) $(UBOOT_BUILD_VARS) ${IP31_BOARD}_config
+	$(MAKE) -C $(UBOOT_INSTALL_DIR) $(UBOOT_BUILD_VARS)
+
+u-boot_clean:
+	$(MAKE) -C $(UBOOT_INSTALL_DIR) $(UBOOT_BUILD_VARS) distclean
+
+u-boot_install:
+	install -d $(UBOOT_EXEC_DIR)/boot
+	install $(UBOOT_INSTALL_DIR)/MLO $(UBOOT_EXEC_DIR)/boot
+	install $(UBOOT_INSTALL_DIR)/u-boot.img $(UBOOT_EXEC_DIR)/boot
+	install $(UBOOT_INSTALL_DIR)/u-boot.map $(UBOOT_EXEC_DIR)/boot
