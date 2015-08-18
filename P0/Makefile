@@ -1,6 +1,7 @@
 
 PROJECT_DIR=/home/saic/projects/bsp/sa
 PROJECT_INSTALL_DIR=/home/saic/projects/bsp
+PROJECT_SGX_DIR=/home/saic/projects/bsp
 
 # Cross compiler used for building linux and u-boot
 TOOLCHAIN_INSTALL_DIR=/home/saic/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux
@@ -21,7 +22,7 @@ UBOOT_SRC_DIR=$(PROJECT_DIR)/u-boot-p0
 DEFAULT_UBOOT_CONFIG=dra7xx_evm_config
 
 # The directory that points to the SGX kernel module sources.
-SGX_KERNEL_MODULE_PATH=$(PROJECT_DIR)/external-linux-kernel-modules/omap5-sgx-ddk-linux/eurasia_km/eurasiacon/build/linux2/omap5430_linux
+SGX_KERNEL_MODULE_PATH=$(PROJECT_SGX_DIR)/external-linux-kernel-modules/omap5-sgx-ddk-linux/eurasia_km/eurasiacon/build/linux2/omap5430_linux
 
 # Where to copy the resulting executables
 OBJ_INSTALL_DIR=$(PROJECT_INSTALL_DIR)/_install
@@ -35,7 +36,7 @@ bsp_kernel: kernel dtb
 
 kernel:
 	$(MAKE) -C $(LINUXKERNEL_SRC_DIR) ARCH=arm $(DEFAULT_LINUXKERNEL_CONFIG)
-	cd kernel; pwd ; ./scripts/kconfig/merge_config.sh -m .config ti_config_fragments/audio_display.cfg ti_config_fragments/baseport.cfg ti_config_fragments/connectivity.cfg ti_config_fragments/ipc.cfg ti_config_fragments/power.cfg ti_config_fragments/wlan.cfg ti_config_fragments/system_test.cfg ti_config_fragments/auto.cfg ti_config_fragments/radio.cfg
+	cd $(LINUXKERNEL_SRC_DIR); pwd ; ./scripts/kconfig/merge_config.sh -m .config ti_config_fragments/audio_display.cfg ti_config_fragments/baseport.cfg ti_config_fragments/connectivity.cfg ti_config_fragments/ipc.cfg ti_config_fragments/power.cfg ti_config_fragments/wlan.cfg ti_config_fragments/system_test.cfg ti_config_fragments/auto.cfg ti_config_fragments/radio.cfg
 	$(MAKE) -C $(LINUXKERNEL_SRC_DIR) olddefconfig ARCH=arm
 	$(MAKE) -C $(LINUXKERNEL_SRC_DIR) -j4 $(LINUXKERNEL_BUILD_VARS) zImage
 	$(MAKE) -C $(LINUXKERNEL_SRC_DIR) $(LINUXKERNEL_BUILD_VARS) dtbs
