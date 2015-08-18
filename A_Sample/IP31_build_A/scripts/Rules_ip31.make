@@ -1,3 +1,6 @@
+PROJECT_DIR=/home/saic/projects/bsp
+PROJECT_INSTALL_DIR=/home/saic/projects/bsp
+
 # Define target platform.
 DEFAULT_LINUXKERNEL_CONFIG=omap2plus_defconfig
 
@@ -24,6 +27,8 @@ KERNEL_INSTALL_DIR=$(LINUXKERNEL_INSTALL_DIR)
 # The directory that points to your u-boot source directory.
 UBOOT_INSTALL_DIR=$(IP31_INSTALL_DIR)/u-boot
 
+# The directory that points to the SGX kernel module sources.
+SGX_KERNEL_MODULE_PATH=$(PROJECT_DIR)/external-linux-kernel-modules/omap5-sgx-ddk-linux/eurasia_km/eurasiacon/build/linux2/omap5430_linux
 
 # Kernel/U-Boot build variables
 LINUXKERNEL_BUILD_VARS = ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE_PREFIX)
