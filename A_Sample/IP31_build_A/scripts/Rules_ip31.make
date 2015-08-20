@@ -15,7 +15,8 @@ CROSS_COMPILE_PREFIX=$(TOOLCHAIN_INSTALL_DIR)/bin/arm-linux-gnueabihf-
 # begin modify++
 # IP31_CODE_DIR=$(shell pwd)/..
 #IP31_CODE_DIR=/home/saic/projects/bsp/new
-IP31_CODE_DIR=/home/saic/projects/bsp/sa
+#IP31_CODE_DIR=/home/saic/projects/bsp/sa
+IP31_CODE_DIR=/home/saic/projects/bsp/glsdk7.01
 # end modify++
 
 # For backwards compatibility
