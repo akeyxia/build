@@ -1,0 +1,1 @@
+mmcargs=setenv bootargs 'console=ttyO0,115200n8 elevator=noop root=/dev/mmcblk0p2 rw rootwait earlyprintk fixrtc omapdrm.num_crtc=2 init=/lib/systemd/systemd-bootchart consoleblank=0 cma=64M rootfstype=ext4'
