@@ -55,6 +55,7 @@ linux_clean:
 	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) clean
 
 linux_install:
+ifneq ($(wildcard $(EXEC_DIR)),)
 	install -d $(EXEC_DIR)/boot
 	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/zImage $(EXEC_DIR)/boot
 	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${IP31_BOARD}.dtb $(EXEC_DIR)/boot
@@ -62,6 +63,9 @@ linux_install:
 	sudo install  $(LINUXKERNEL_INSTALL_DIR)/System.map $(EXEC_DIR)/boot
 	sudo $(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) INSTALL_MOD_PATH=$(EXEC_DIR) modules_install
 	sudo $(MAKE) -C $(SGX_KERNEL_MODULE_PATH) $(LINUXKERNEL_BUILD_VARS) KERNELDIR=$(LINUXKERNEL_INSTALL_DIR) DISCIMAGE=$(EXEC_DIR) kbuild_install
+else
+	$(error "No found install directory($(EXEC_DIR))!")
+endif
 
 #==============================================================================
 # Build dtb[s]. Also, an explicit cleanup target is defined.
@@ -70,12 +74,20 @@ dtb:
 	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) ${IP31_BOARD}.dtb
 
 dtb_install:
+ifneq ($(wildcard $(EXEC_DIR)),)
 	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${IP31_BOARD}.dtb $(EXEC_DIR)/boot
+else
+	$(error "No found install directory($(EXEC_DIR))!")
+endif
 
 dtbs:
 	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) dtbs
 dtbs_install:
+ifneq ($(wildcard $(EXEC_DIR)),)
 	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/*.dtb $(EXEC_DIR)/boot
+else
+	$(error "No found install directory($(EXEC_DIR))!")
+endif
 
 #==============================================================================
 # Build u-boot. Also, an explicit cleanup target is defined.
@@ -88,7 +100,11 @@ u-boot_clean:
 	$(MAKE) -C $(UBOOT_INSTALL_DIR) $(UBOOT_BUILD_VARS) distclean
 
 u-boot_install:
-	install -d $(UBOOT_EXEC_DIR)/boot
-	install $(UBOOT_INSTALL_DIR)/MLO $(UBOOT_EXEC_DIR)/boot
-	install $(UBOOT_INSTALL_DIR)/u-boot.img $(UBOOT_EXEC_DIR)/boot
-	install $(UBOOT_INSTALL_DIR)/u-boot.map $(UBOOT_EXEC_DIR)/boot
+ifneq ($(wildcard $(UBOOT_EXEC_DIR)),)
+	install -d $(UBOOT_EXEC_DIR)
+	install $(UBOOT_INSTALL_DIR)/MLO $(UBOOT_EXEC_DIR)
+	install $(UBOOT_INSTALL_DIR)/u-boot.img $(UBOOT_EXEC_DIR)
+	install $(UBOOT_INSTALL_DIR)/u-boot.map $(UBOOT_EXEC_DIR)
+else
+	$(error "No found install directory($(UBOOT_EXEC_DIR))!")
+endif

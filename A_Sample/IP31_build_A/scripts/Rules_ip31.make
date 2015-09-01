@@ -42,6 +42,6 @@ EXEC_DIR=/media/saic/rootfs
 #EXEC_DIR=~/project/bsp/image4bt/rootfs
 
 # Where to copy the resulting executables
-UBOOT_EXEC_DIR=/media/saic
+UBOOT_EXEC_DIR=/media/saic/boot
 #UBOOT_EXEC_DIR=~/project/bsp/image4bt
 
