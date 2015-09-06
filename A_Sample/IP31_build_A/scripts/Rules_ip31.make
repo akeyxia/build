@@ -1,7 +1,16 @@
+__GLSDK_VERSION=glsdk7.00
+#__GLSDK_VERSION: glsdk7.00, glsdk7.01
+__LOCAL_VERSION=new
+#__LOCAL_VERSION: old, new
+
 PROJECT_DIR=/home/saic/projects/bsp
 PROJECT_INSTALL_DIR=/home/saic/projects/bsp
-#PROJECT_SGX_DIR=/home/saic/projects/bsp/external-linux-kernel-modules
-PROJECT_SGX_DIR=/home/saic/projects/bsp/glsdk7.01
+ifeq ($(__GLSDK_VERSION), glsdk7.00)
+	PROJECT_SGX_DIR=/home/saic/projects/bsp/external-linux-kernel-modules
+endif
+ifeq ($(__GLSDK_VERSION), glsdk7.01)
+	PROJECT_SGX_DIR=/home/saic/projects/bsp/glsdk7.01
+endif
 
 # Define target platform.
 DEFAULT_LINUXKERNEL_CONFIG=omap2plus_defconfig
@@ -15,9 +24,17 @@ CROSS_COMPILE_PREFIX=$(TOOLCHAIN_INSTALL_DIR)/bin/arm-linux-gnueabihf-
 # The installation directory of the SDK.
 # begin modify++
 # IP31_CODE_DIR=$(shell pwd)/..
-#IP31_CODE_DIR=/home/saic/projects/bsp/new
-#IP31_CODE_DIR=/home/saic/projects/bsp/sa
-IP31_CODE_DIR=/home/saic/projects/bsp/glsdk7.01
+ifeq ($(__GLSDK_VERSION), glsdk7.00)
+	ifeq ($(__LOCAL_VERSION), old)
+		IP31_CODE_DIR=/home/saic/projects/bsp/new
+	endif
+	ifeq ($(__LOCAL_VERSION), new)
+		IP31_CODE_DIR=/home/saic/projects/bsp/sa
+	endif
+endif
+ifeq ($(__GLSDK_VERSION), glsdk7.01)
+	IP31_CODE_DIR=/home/saic/projects/bsp/glsdk7.01
+endif
 # end modify++
 
 # For backwards compatibility
