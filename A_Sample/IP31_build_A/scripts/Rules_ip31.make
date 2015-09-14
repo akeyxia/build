@@ -2,6 +2,8 @@ __GLSDK_VERSION=glsdk7.00
 #__GLSDK_VERSION: glsdk7.00, glsdk7.01
 __LOCAL_VERSION=new
 #__LOCAL_VERSION: old, new
+__INSTALL_DIR=media
+#__INSTALL_DIR: media, dummy
 
 PROJECT_DIR=/home/saic/projects/bsp
 PROJECT_INSTALL_DIR=/home/saic/projects/bsp
@@ -55,10 +57,11 @@ LINUXKERNEL_BUILD_VARS = ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE_PREFIX)
 UBOOT_BUILD_VARS = CROSS_COMPILE=$(CROSS_COMPILE_PREFIX)
 
 # Where to copy the resulting executables
-EXEC_DIR=/media/saic/rootfs
-#EXEC_DIR=~/project/bsp/image4bt/rootfs
-
-# Where to copy the resulting executables
-UBOOT_EXEC_DIR=/media/saic/boot
-#UBOOT_EXEC_DIR=~/project/bsp/image4bt
-
+ifeq ($(__INSTALL_DIR), media)
+	EXEC_DIR=/media/saic/rootfs
+	UBOOT_EXEC_DIR=/media/saic/boot
+endif
+ifeq ($(__INSTALL_DIR), dummy)
+	EXEC_DIR=/home/saic/projects/bsp/INSTALL/install/dra7xx/rootfs
+	UBOOT_EXEC_DIR=/home/saic/projects/bsp/INSTALL/install/dra7xx/boot
+endif
