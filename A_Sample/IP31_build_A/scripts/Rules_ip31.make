@@ -4,7 +4,7 @@ __LOCAL_VERSION=new
 #__LOCAL_VERSION: old, new
 __INSTALL_DIR=media
 #__INSTALL_DIR: media, dummy
-__SRC_LOCATION=lan,wan
+__SRC_LOCATION=lan
 #__SRC_LOCATION: lan, wan
 
 PROJECT_DIR=/home/saic/projects/bsp
