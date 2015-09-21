@@ -1,9 +1,11 @@
-__GLSDK_VERSION=glsdk7.00
+__GLSDK_VERSION=glsdk7.01
 #__GLSDK_VERSION: glsdk7.00, glsdk7.01
 __LOCAL_VERSION=new
 #__LOCAL_VERSION: old, new
 __INSTALL_DIR=media
 #__INSTALL_DIR: media, dummy
+__SRC_LOCATION=lan,wan
+#__SRC_LOCATION: lan, wan
 
 PROJECT_DIR=/home/saic/projects/bsp
 PROJECT_INSTALL_DIR=/home/saic/projects/bsp
@@ -35,7 +37,12 @@ ifeq ($(__GLSDK_VERSION), glsdk7.00)
 	endif
 endif
 ifeq ($(__GLSDK_VERSION), glsdk7.01)
-	IP31_CODE_DIR=/home/saic/projects/bsp/glsdk7.01
+	ifeq ($(__SRC_LOCATION), lan)
+		IP31_CODE_DIR=/home/saic/projects/bsp/glsdk7.01
+	endif
+	ifeq ($(__SRC_LOCATION), wan)
+		IP31_CODE_DIR=/home/saic/projects/bsp/out/beta
+	endif
 endif
 # end modify++
 
