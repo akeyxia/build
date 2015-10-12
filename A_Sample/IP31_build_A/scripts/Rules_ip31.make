@@ -1,5 +1,5 @@
-__GLSDK_VERSION=glsdk7.01
-#__GLSDK_VERSION: glsdk7.00, glsdk7.01
+__GLSDK_VERSION=update
+#__GLSDK_VERSION: glsdk7.00, glsdk7.01, update, alpha, beta, ga
 __LOCAL_VERSION=new
 #__LOCAL_VERSION: old, new
 __INSTALL_DIR=media
@@ -9,11 +9,25 @@ __SRC_LOCATION=lan
 
 PROJECT_DIR=/home/saic/projects/bsp
 PROJECT_INSTALL_DIR=/home/saic/projects/bsp
+
+# SGX directory
 ifeq ($(__GLSDK_VERSION), glsdk7.00)
 	PROJECT_SGX_DIR=/home/saic/projects/bsp/external-linux-kernel-modules
 endif
 ifeq ($(__GLSDK_VERSION), glsdk7.01)
 	PROJECT_SGX_DIR=/home/saic/projects/bsp/glsdk7.01
+endif
+ifeq ($(__GLSDK_VERSION), update)
+	PROJECT_SGX_DIR=/work/bsp/update
+endif
+ifeq ($(__GLSDK_VERSION), alpha)
+	PROJECT_SGX_DIR=/work/bsp/alpha
+endif
+ifeq ($(__GLSDK_VERSION), beta)
+	PROJECT_SGX_DIR=/work/bsp/beta
+endif
+ifeq ($(__GLSDK_VERSION), ga)
+	PROJECT_SGX_DIR=/work/bsp/ga
 endif
 
 # Define target platform.
@@ -44,13 +58,25 @@ ifeq ($(__GLSDK_VERSION), glsdk7.01)
 		IP31_CODE_DIR=/home/saic/projects/bsp/out/beta
 	endif
 endif
+ifeq ($(__GLSDK_VERSION), update)
+	IP31_CODE_DIR=/work/bsp/update
+endif
+ifeq ($(__GLSDK_VERSION), alpha)
+	IP31_CODE_DIR=/work/bsp/alpha
+endif
+ifeq ($(__GLSDK_VERSION), beta)
+	IP31_CODE_DIR=/work/bsp/beta
+endif
+ifeq ($(__GLSDK_VERSION), ga)
+	IP31_CODE_DIR=/work/bsp/ga
+endif
 # end modify++
 
 # For backwards compatibility
 IP31_INSTALL_DIR=$(IP31_CODE_DIR)
 
 # The directory that points to your kernel source directory.
-LINUXKERNEL_INSTALL_DIR=$(IP31_INSTALL_DIR)/kernel
+LINUXKERNEL_INSTALL_DIR=$(IP31_INSTALL_DIR)/linux
 KERNEL_INSTALL_DIR=$(LINUXKERNEL_INSTALL_DIR)
 
 # The directory that points to your u-boot source directory.
