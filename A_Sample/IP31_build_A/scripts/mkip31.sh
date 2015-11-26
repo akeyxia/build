@@ -6,7 +6,7 @@ function helper()
 	echo "	"$0 option ip31_board ip31_target
 	echo "	"option	    : build install
 	echo "	"ip31_board : ip31_navi_hl ip31_navi_ll ip31_color_radio
-	echo "	"ip31_target: all u-boot linux dtb
+	echo "	"ip31_target: all u-boot linux dtb/dtbs
 }
 
 if [ $# != 3 ]; then
@@ -37,7 +37,7 @@ fi
 if [ $IP31_TARGET != all ]&&
    [ $IP31_TARGET != u-boot ]&&
    [ $IP31_TARGET != linux ]&&
-   [ $IP31_TARGET != dtb ]; then
+   [ $IP31_TARGET != dtb -o $IP31_TARGET != dtbs]; then
 	echo "error : unknown target !!!"
         helper
         exit 0
@@ -49,25 +49,35 @@ case "$IP31_TARGET" in
 	"all")
 		BUILD_UBOOT=1
 		BUILD_LINUX=1
-		BUILD_DTB=1
+		BUILD_DTB=0
+		BUILD_DTBS=1
 		;;
 
 	"u-boot")
 		BUILD_UBOOT=1
 		BUILD_LINUX=0
 		BUILD_DTB=0
+		BUILD_DTBS=0
 		;;
 
 	"linux")
 		BUILD_UBOOT=0
 		BUILD_LINUX=1
 		BUILD_DTB=0
+		BUILD_DTBS=0
 		;;
 	"dtb")
-                BUILD_UBOOT=0
-                BUILD_LINUX=0
-                BUILD_DTB=1
-                ;;
+		BUILD_UBOOT=0
+		BUILD_LINUX=0
+		BUILD_DTB=1
+		BUILD_DTBS=0
+		;;
+	"dtbs")
+		BUILD_UBOOT=0
+		BUILD_LINUX=0
+		BUILD_DTB=0
+		BUILD_DTBS=1
+		;;
 esac
 
 if [ ${BUILD_UBOOT} -gt 0 ]; then
@@ -96,6 +106,16 @@ if [ ${BUILD_DTB} -gt 0 ]; then
         elif [ "$IP31_OP" = "install" ]; then
                 make dtb_install IP31_BOARD=${2}
         else 
+                echo "error : unknown option."
+        fi
+fi
+
+if [ ${BUILD_DTBS} -gt 0 ]; then
+	if [ "$IP31_OP" = "build" ]; then
+                make dtbs -j${CPUS}
+        elif [ "$IP31_OP" = "install" ]; then
+                make dtbs_install
+        else
                 echo "error : unknown option."
         fi
 fi
