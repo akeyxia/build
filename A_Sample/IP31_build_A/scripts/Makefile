@@ -46,7 +46,7 @@ linux:
 	cd $(LINUXKERNEL_INSTALL_DIR); pwd ; ./scripts/kconfig/merge_config.sh -m .config ip31_config/ip31.cfg 
 	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) olddefconfig ARCH=arm
 	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) zImage
-	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) ${IP31_BOARD}.dtb
+#	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) ${IP31_BOARD}.dtb
 	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) modules
 	$(MAKE) -C $(SGX_KERNEL_MODULE_PATH) $(LINUXKERNEL_BUILD_VARS) KERNELDIR=$(LINUXKERNEL_INSTALL_DIR) DISCIMAGE=$(EXEC_DIR)
 
@@ -58,7 +58,7 @@ linux_install:
 ifneq ($(wildcard $(EXEC_DIR)),)
 	install -d $(EXEC_DIR)/boot
 	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/zImage $(EXEC_DIR)/boot
-	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${IP31_BOARD}.dtb $(EXEC_DIR)/boot
+#	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${IP31_BOARD}.dtb $(EXEC_DIR)/boot
 	sudo install  $(LINUXKERNEL_INSTALL_DIR)/vmlinux $(EXEC_DIR)/boot
 	sudo install  $(LINUXKERNEL_INSTALL_DIR)/System.map $(EXEC_DIR)/boot
 	sudo $(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) INSTALL_MOD_PATH=$(EXEC_DIR) modules_install
@@ -71,11 +71,27 @@ endif
 # Build dtb[s]. Also, an explicit cleanup target is defined.
 #==============================================================================
 dtb:
-	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) ${IP31_BOARD}.dtb
+#	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) ${IP31_BOARD}.dtb
+	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) ${DTB_A0H}.dtb
+	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) ${DTB_A1H10LCD}.dtb
+	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) ${DTB_A1H8LCD}.dtb
+	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) ${DTB_A1L10LCD}.dtb
+	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) ${DTB_A1L8LCD}.dtb
+	dd if=$(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${DTB_A0H}.dtb of=$(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/$(COMPOUND_DTB_IMAGE) bs=1K
+	dd if=$(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${DTB_A1H10LCD}.dtb of=$(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/$(COMPOUND_DTB_IMAGE) bs=1K seek=256
+	dd if=$(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${DTB_A1H8LCD}.dtb of=$(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/$(COMPOUND_DTB_IMAGE) bs=1K seek=512
+	dd if=$(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${DTB_A1L10LCD}.dtb of=$(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/$(COMPOUND_DTB_IMAGE) bs=1K seek=784
+	dd if=$(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${DTB_A1L8LCD}.dtb of=$(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/$(COMPOUND_DTB_IMAGE) bs=1K seek=1024
 
 dtb_install:
 ifneq ($(wildcard $(EXEC_DIR)),)
-	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${IP31_BOARD}.dtb $(EXEC_DIR)/boot
+#	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${IP31_BOARD}.dtb $(EXEC_DIR)/boot
+	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${DTB_A0H}.dtb $(EXEC_DIR)/boot
+	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${DTB_A1H10LCD}.dtb $(EXEC_DIR)/boot
+	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${DTB_A1H10LCD}.dtb $(EXEC_DIR)/boot
+	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${DTB_A1L10LCD}.dtb $(EXEC_DIR)/boot
+	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${DTB_A1L8LCD}.dtb $(EXEC_DIR)/boot
+	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/$(COMPOUND_DTB_IMAGE) $(EXEC_DIR)/boot
 else
 	$(error "No found install directory($(EXEC_DIR))!")
 endif

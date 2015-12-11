@@ -98,3 +98,12 @@ ifeq ($(__INSTALL_DIR), dummy)
 	EXEC_DIR=/home/saic/projects/bsp/INSTALL/install/dra7xx/rootfs
 	UBOOT_EXEC_DIR=/home/saic/projects/bsp/INSTALL/install/dra7xx/boot
 endif
+
+DTB_A0H=ip31_navi_hl
+DTB_A1H10LCD=ip31-a1-h10lcd
+DTB_A1H8LCD=ip31-a1-h8lcd
+DTB_A1L10LCD=ip31-a1-l10lcd
+DTB_A1L8LCD=ip31-a1-l8lcd
+DTB_FILE="ip31_navi_hl.dtb ip31-a1-h10lcd.dtb ip31-a1-h8lcd.dtb ip31-a1-l10lcd.dtb ip31-a1-l8lcd.dtb"
+COMPOUND_DTB_IMAGE=dtb.img
+

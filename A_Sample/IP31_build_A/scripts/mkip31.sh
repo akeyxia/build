@@ -37,7 +37,8 @@ fi
 if [ $IP31_TARGET != all ]&&
    [ $IP31_TARGET != u-boot ]&&
    [ $IP31_TARGET != linux ]&&
-   [ $IP31_TARGET != dtb -o $IP31_TARGET != dtbs]; then
+   [ $IP31_TARGET != dtb ]&&
+   [ $IP31_TARGET != dtbs ]; then
 	echo "error : unknown target !!!"
         helper
         exit 0
@@ -49,8 +50,8 @@ case "$IP31_TARGET" in
 	"all")
 		BUILD_UBOOT=1
 		BUILD_LINUX=1
-		BUILD_DTB=0
-		BUILD_DTBS=1
+		BUILD_DTB=1
+		BUILD_DTBS=0
 		;;
 
 	"u-boot")
