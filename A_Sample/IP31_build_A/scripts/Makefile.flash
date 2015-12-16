@@ -1,0 +1,53 @@
+include Rules_ip31.make
+
+.PHONY:	help uboot kernelA kernelB dtbA dtbB module all sysA sysB module_clean clean
+
+imageA: kernelA dtbA
+
+imageB: kernelB dtbB
+
+kernel_all: module imageA imageB
+
+all: kernel_all uboot
+
+clean: module_clean
+
+#==============================================================================
+# A help message target.
+#==============================================================================
+help:
+	@echo
+	@echo "Available flash targets are  :"
+	@echo
+	@echo "    uboot		: flash u-boot.img to uboot partition"
+	@echo "    kernelA		: flash zImage to kernelA partition"
+	@echo "    kernelB		: flash zImage to kernelB partition"
+	@echo "    dtbA			: flash dtb.img to dtbA partition"
+	@echo "    dtbB			: flash dtb.img to dtbB partition"
+	@echo "    module		: install module to /lib/modules/"
+	@echo
+
+uboot:
+	sudo fastboot flash uboot $(UBOOT_INSTALL_DIR)/u-boot.img
+
+kernelA:
+	sudo fastboot flash kernelA $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/zImage
+
+kernelB:
+	sudo fastboot flash kernelB $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/zImage
+
+dtbA:
+	sudo fastboot flash dtbA $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/dtb.img
+
+dtbB:
+	sudo fastboot flash dtbB $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/dtb.img
+
+module:
+	sudo rm $(EXEC_DIR)/lib/modules/*/build -f
+	sudo rm $(EXEC_DIR)/lib/modules/*/source -f
+	sudo adb push $(EXEC_DIR)/lib/modules /lib/modules/
+	sudo adb shell sync
+
+module_clean:
+	sudo rm $(EXEC_DIR)/lib/modules/* -rf
+
