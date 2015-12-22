@@ -1,10 +1,14 @@
 include Rules_ip31.make
 
-.PHONY:	help uboot kernelA kernelB dtbA dtbB module all sysA sysB module_clean clean
+.PHONY:	help uboot kernelA kernelB dtbA dtbB module kernelA_all kernalB_all all imageA iamgeB module_clean clean
 
 imageA: kernelA dtbA
 
 imageB: kernelB dtbB
+
+kernelA_all: module imageA
+
+kernelB_all: module imageB
 
 kernel_all: module imageA imageB
 

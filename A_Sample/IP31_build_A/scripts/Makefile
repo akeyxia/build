@@ -61,6 +61,9 @@ ifneq ($(wildcard $(EXEC_DIR)),)
 #	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${IP31_BOARD}.dtb $(EXEC_DIR)/boot
 	sudo install  $(LINUXKERNEL_INSTALL_DIR)/vmlinux $(EXEC_DIR)/boot
 	sudo install  $(LINUXKERNEL_INSTALL_DIR)/System.map $(EXEC_DIR)/boot
+ifneq ($(wildcard $(__INSTALL_DIR)), dummy)
+	sudo rm $(EXEC_DIR)/lib/modules/* -rf
+endif
 	sudo $(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) INSTALL_MOD_PATH=$(EXEC_DIR) modules_install
 	sudo $(MAKE) -C $(SGX_KERNEL_MODULE_PATH) $(LINUXKERNEL_BUILD_VARS) KERNELDIR=$(LINUXKERNEL_INSTALL_DIR) DISCIMAGE=$(EXEC_DIR) kbuild_install
 else
