@@ -99,6 +99,8 @@ ifeq ($(__INSTALL_DIR), dummy)
 	UBOOT_EXEC_DIR=/home/saic/projects/bsp/INSTALL/install/dra7xx/boot
 endif
 
+MLO_RAW_HEADER="data/EMMC_raw_header.dat"
+MLO_FINAL_IMAGE="data/MLO.raw"
 DTB_A0H=ip31_navi_hl
 DTB_A1H10LCD=ip31-a1-h10lcd
 DTB_A1H8LCD=ip31-a1-h8lcd
