@@ -2,7 +2,7 @@ __GLSDK_VERSION=update
 #__GLSDK_VERSION: glsdk7.00, glsdk7.01, update, alpha, beta, ga
 __LOCAL_VERSION=new
 #__LOCAL_VERSION: old, new
-__INSTALL_DIR=media
+__INSTALL_DIR=dummy
 #__INSTALL_DIR: media, dummy
 __SRC_LOCATION=lan
 #__SRC_LOCATION: lan, wan
@@ -102,10 +102,10 @@ endif
 MLO_RAW_HEADER="data/EMMC_raw_header.dat"
 MLO_FINAL_IMAGE="data/MLO.raw"
 DTB_A0H=ip31_navi_hl
-DTB_A1H10LCD=ip31-a1-h10lcd
 DTB_A1H8LCD=ip31-a1-h8lcd
-DTB_A1L10LCD=ip31-a1-l10lcd
+DTB_A1H10LCD=ip31-a1-h10lcd
 DTB_A1L8LCD=ip31-a1-l8lcd
-DTB_FILE="ip31_navi_hl.dtb ip31-a1-h10lcd.dtb ip31-a1-h8lcd.dtb ip31-a1-l10lcd.dtb ip31-a1-l8lcd.dtb"
+DTB_A1L10LCD=ip31-a1-l10lcd
+DTB_FILE="ip31_navi_hl.dtb ip31-a1-h8lcd.dtb ip31-a1-h10lcd.dtb ip31-a1-l8lcd.dtb ip31-a1-l10lcd.dtb"
 COMPOUND_DTB_IMAGE=dtb.img
 
