@@ -80,11 +80,16 @@ dtb:
 	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) ${DTB_A1H8LCD}.dtb
 	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) ${DTB_A1L10LCD}.dtb
 	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) ${DTB_A1L8LCD}.dtb
+	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) ${DTB_FBL_8LCD}.dtb
+	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) ${DTB_FBL_10LCD}.dtb
 	dd if=$(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${DTB_A0H}.dtb of=$(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/$(COMPOUND_DTB_IMAGE) bs=1K
 	dd if=$(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${DTB_A1H8LCD}.dtb of=$(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/$(COMPOUND_DTB_IMAGE) bs=1K seek=256
 	dd if=$(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${DTB_A1H10LCD}.dtb of=$(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/$(COMPOUND_DTB_IMAGE) bs=1K seek=512
 	dd if=$(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${DTB_A1L8LCD}.dtb of=$(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/$(COMPOUND_DTB_IMAGE) bs=1K seek=768
 	dd if=$(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${DTB_A1L10LCD}.dtb of=$(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/$(COMPOUND_DTB_IMAGE) bs=1K seek=1024
+	dd if=$(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${DTB_FBL_8LCD}.dtb of=$(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/$(COMPOUND_DTB_IMAGE) bs=1K seek=1280
+	dd if=$(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${DTB_FBL_10LCD}.dtb of=$(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/$(COMPOUND_DTB_IMAGE) bs=1K seek=1536
+
 
 dtb_install:
 ifneq ($(wildcard $(EXEC_DIR)),)
@@ -94,6 +99,8 @@ ifneq ($(wildcard $(EXEC_DIR)),)
 	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${DTB_A1H10LCD}.dtb $(EXEC_DIR)/boot
 	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${DTB_A1L8LCD}.dtb $(EXEC_DIR)/boot
 	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${DTB_A1L10LCD}.dtb $(EXEC_DIR)/boot
+	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${DTB_FBL_8LCD}.dtb $(EXEC_DIR)/boot
+	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/${DTB_FBL_10LCD}.dtb $(EXEC_DIR)/boot
 	sudo install  $(LINUXKERNEL_INSTALL_DIR)/arch/arm/boot/dts/$(COMPOUND_DTB_IMAGE) $(EXEC_DIR)/boot
 else
 	$(error "No found install directory($(EXEC_DIR))!")
