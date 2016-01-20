@@ -1,6 +1,6 @@
 include Rules_ip31.make
 
-.PHONY:	help uboot kernelA kernelB dtbA dtbB module kernelA_all kernalB_all all imageA iamgeB module_clean clean
+.PHONY:	help enter_fastboot uboot kernelA kernelB dtbA dtbB module kernelA_all kernalB_all all imageA iamgeB module_clean clean
 
 imageA: kernelA dtbA
 
@@ -10,9 +10,9 @@ kernelA_all: module imageA
 
 kernelB_all: module imageB
 
-kernel_all: module imageA imageB
+kernel_all: module enter_fastboot imageA imageB
 
-all: kernel_all uboot
+all: kernel_all uboot end_fastboot
 
 clean: module_clean
 
@@ -31,10 +31,18 @@ help:
 	@echo "    module		: install module to /lib/modules/"
 	@echo
 
+enter_fastboot:
+	sudo adb shell sleep 3
+	sudo adb shell reboot -f fastboot
+
+end_fastboot:
+	sudo fastboot reboot
+
 uboot:
 	echo "create final MLO image"
 	dd if=$(MLO_RAW_HEADER) of=$(MLO_FINAL_IMAGE)
 	dd if=$(UBOOT_INSTALL_DIR)/MLO of=$(MLO_FINAL_IMAGE) conv=notrunc oflag=append
+	#dd if=$(UBOOT_INSTALL_DIR)/MLO of=$(MLO_FINAL_IMAGE)
 	sync
 	sudo fastboot flash MLO $(MLO_FINAL_IMAGE)
 	sudo fastboot flash uboot $(UBOOT_INSTALL_DIR)/u-boot.img
