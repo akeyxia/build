@@ -40,9 +40,9 @@ end_fastboot:
 
 uboot:
 	echo "create final MLO image"
-	dd if=$(MLO_RAW_HEADER) of=$(MLO_FINAL_IMAGE)
-	dd if=$(UBOOT_INSTALL_DIR)/MLO of=$(MLO_FINAL_IMAGE) conv=notrunc oflag=append
-	#dd if=$(UBOOT_INSTALL_DIR)/MLO of=$(MLO_FINAL_IMAGE)
+	#dd if=$(MLO_RAW_HEADER) of=$(MLO_FINAL_IMAGE)
+	#dd if=$(UBOOT_INSTALL_DIR)/MLO of=$(MLO_FINAL_IMAGE) conv=notrunc oflag=append
+	dd if=$(UBOOT_INSTALL_DIR)/MLO of=$(MLO_FINAL_IMAGE)
 	sync
 	sudo fastboot flash MLO $(MLO_FINAL_IMAGE)
 	sudo fastboot flash uboot $(UBOOT_INSTALL_DIR)/u-boot.img
