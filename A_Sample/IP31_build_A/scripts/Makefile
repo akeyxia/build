@@ -43,7 +43,7 @@ help:
 #==============================================================================
 linux:
 	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) ARCH=arm $(DEFAULT_LINUXKERNEL_CONFIG)
-	cd $(LINUXKERNEL_INSTALL_DIR); pwd ; ./scripts/kconfig/merge_config.sh -m .config ip31_config/ip31.cfg 
+#	cd $(LINUXKERNEL_INSTALL_DIR); pwd ; ./scripts/kconfig/merge_config.sh -m .config ip31_config/ip31.cfg
 	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) olddefconfig ARCH=arm
 	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) zImage
 #	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) ${IP31_BOARD}.dtb
