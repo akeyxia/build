@@ -31,8 +31,8 @@ ifeq ($(__GLSDK_VERSION), ga)
 endif
 
 # Define target platform.
-DEFAULT_LINUXKERNEL_CONFIG=omap2plus_defconfig
-#DEFAULT_LINUXKERNEL_CONFIG=ip31_defconfig
+# DEFAULT_LINUXKERNEL_CONFIG=omap2plus_defconfig
+DEFAULT_LINUXKERNEL_CONFIG=ip31_defconfig
 
 # Cross compiler used for building linux and u-boot
 # begin modify++
