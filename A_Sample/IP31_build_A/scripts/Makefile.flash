@@ -63,6 +63,8 @@ module:
 	sudo rm $(EXEC_DIR)/lib/modules/*/build -f
 	sudo rm $(EXEC_DIR)/lib/modules/*/source -f
 	sudo adb push $(EXEC_DIR)/lib/modules /lib/modules/
+	sudo adb push $(EXEC_DIR)/lib/modules/*/kernel/yunos/modules/alisec/* /usr/lib/modules/
+	sudo adb push $(EXEC_DIR)/lib/modules/*/kernel/yunos/modules/alitks/* /usr/lib/modules/
 	sudo adb shell sync
 
 module_clean:
