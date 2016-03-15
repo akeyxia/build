@@ -111,6 +111,6 @@ DTB_FBL_8LCD=ip31-fbl-8lcd
 DTB_FBL_10LCD=ip31-fbl-10lcd
 DTB_FBL_10LCD=ip31-fbl-10lcd
 DTB_A0H8LCD=ip31-a0-h8lcd
-DTB_FILE="ip31_navi_hl.dtb ip31-a1-h8lcd.dtb ip31-a1-h10lcd.dtb ip31-a1-l8lcd.dtb ip31-a1-l10lcd.dtb ip31-fbl-8lcd.dtb ip31-fbl-10lcd.dtb ip31-a0-h8lcd.dtb"
+DTB_FILES=ip31_navi_hl.dtb ip31-a1-h8lcd.dtb ip31-a1-h10lcd.dtb ip31-a1-l8lcd.dtb ip31-a1-l10lcd.dtb ip31-fbl-8lcd.dtb ip31-fbl-10lcd.dtb ip31-a0-h8lcd.dtb
 COMPOUND_DTB_IMAGE=dtb.img
-
+__USE_DTB_IMG_MK_SHELL=1
