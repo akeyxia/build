@@ -64,6 +64,8 @@ module:
 	sudo rm $(EXEC_DIR)/lib/modules/*/source -f
 	sudo adb shell mount -o remount,rw /
 	sudo adb push $(EXEC_DIR)/lib/modules /lib/modules/
+	sudo adb shell 'cp /usr/lib/modules/a*sec_mod.ko /lib/modules/`uname -r`/kernel/y*os/modules/a*sec/'
+	sudo adb shell 'cp /usr/lib/modules/a*tks_mod.ko /lib/modules/`uname -r`/kernel/y*os/modules/a*tks/'
 	sudo adb push $(EXEC_DIR)/lib/modules/*/kernel/yunos/modules/alisec/* /usr/lib/modules/
 	sudo adb push $(EXEC_DIR)/lib/modules/*/kernel/yunos/modules/alitks/* /usr/lib/modules/
 	sudo adb shell sync
