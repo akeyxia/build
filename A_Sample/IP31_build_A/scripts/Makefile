@@ -139,7 +139,7 @@ endif
 # Build u-boot. Also, an explicit cleanup target is defined.
 #==============================================================================
 u-boot:
-	$(MAKE) -C $(UBOOT_INSTALL_DIR) $(UBOOT_BUILD_VARS) ip31_config
+	$(MAKE) -C $(UBOOT_INSTALL_DIR) $(UBOOT_BUILD_VARS) ${IP31_BOARD}_config
 	$(MAKE) -C $(UBOOT_INSTALL_DIR) $(UBOOT_BUILD_VARS)
 
 u-boot_clean:

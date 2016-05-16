@@ -26,7 +26,9 @@ if [ $IP31_OP != build ]&&
         exit 0
 fi
 
-if [ $IP31_BOARD != ip31_navi_hl ]&&
+if [ $IP31_BOARD != ip31 ]&&
+   [ $IP31_BOARD != ip31_user ]&&
+   [ $IP31_BOARD != ip31_navi_hl ]&&
    [ $IP31_BOARD != ip31_navi_ll ]&&
    [ $IP31_BOARD != ip31_color_radio ]; then
 	echo "error : unknown board !!!"
