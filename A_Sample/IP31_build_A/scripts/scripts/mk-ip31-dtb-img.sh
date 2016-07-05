@@ -4,7 +4,7 @@ LINUX_PATH=$1
 INSTALL_PATH=$2
 
 DTB_PATH=$LINUX_PATH/arch/arm/boot/dts
-DTB_FILE="ip31_navi_hl.dtb ip31-a1-h8lcd.dtb ip31-a1-h10lcd.dtb ip31-a1-l8lcd.dtb ip31-a1-l10lcd.dtb ip31-fbl-8lcd.dtb ip31-fbl-10lcd.dtb ip31-a0-h8lcd.dtb"
+DTB_FILE="ip31_navi_hl.dtb ip31-a1-h8lcd.dtb ip31-a1-h10lcd.dtb ip31-a1-l8lcd.dtb ip31-a1-l10lcd.dtb ip31-fbl-8lcd.dtb ip31-fbl-10lcd.dtb ip31-a0-h8lcd.dtb zxq_common.dtb"
 COMPOUND_DTB_IMAGE=dtb.img
 DD_TOOLS=/bin/dd
 REMOTE=/bin/rm
