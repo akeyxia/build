@@ -86,6 +86,7 @@ esac
 if [ ${BUILD_UBOOT} -gt 0 ]; then
 	if [ "$IP31_OP" = "build" ]; then
 		make u-boot IP31_BOARD=${2} -j${CPUS}
+		#make u-boot IP31_BOARD=ip31 -j${CPUS}
 	elif [ "$IP31_OP" = "install" ]; then
 		make u-boot_install IP31_BOARD=${2}
 	else
@@ -95,12 +96,16 @@ fi
 
 if [ ${BUILD_LINUX} -gt 0 ]; then
 	if [ "$IP31_OP" = "build" ]; then
-                make linux IP31_BOARD=${2} -j${CPUS}
-        elif [ "$IP31_OP" = "install" ]; then
-                make linux_install IP31_BOARD=${2}
-        else
-                echo "error : unknown option."
-        fi
+		#if [ "$IP31_BOARD" == "ip31_user" ]; then
+		#	make linux_user IP31_BOARD=${2} -j${CPUS}
+		#else
+			make linux IP31_BOARD=${2} -j${CPUS}
+		#fi
+	elif [ "$IP31_OP" = "install" ]; then
+		make linux_install IP31_BOARD=${2}
+	else
+		echo "error : unknown option."
+	fi
 fi
 
 if [ ${BUILD_DTB} -gt 0 ]; then
