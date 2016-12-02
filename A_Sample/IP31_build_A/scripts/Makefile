@@ -43,8 +43,11 @@ help:
 #==============================================================================
 linux:
 	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) ARCH=arm $(DEFAULT_LINUXKERNEL_CONFIG)
+ifneq ($(__GLSDK_VERSION), psdkla)
 	cd $(LINUXKERNEL_INSTALL_DIR); pwd ; ./scripts/kconfig/merge_config.sh -m .config ip31_config/debug_options.cfg yunos/stub/yunos_ip31_defconfig
-#	cd $(LINUXKERNEL_INSTALL_DIR); pwd ; ./scripts/kconfig/merge_config.sh -m .config ip31_config/ip31.cfg ip31_config/debug_options.cfg yunos/stub/yunos_ip31_defconfig
+else
+	cd $(LINUXKERNEL_INSTALL_DIR); pwd ; ./scripts/kconfig/merge_config.sh -m .config ip31_config/ip31.cfg ip31_config/debug_options.cfg yunos/stub/yunos_ip31_defconfig
+endif
 	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) olddefconfig ARCH=arm
 	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) zImage
 #	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) ${IP31_BOARD}.dtb
@@ -77,6 +80,10 @@ ifneq ($(wildcard $(__INSTALL_DIR)), dummy)
 endif
 	sudo $(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) INSTALL_MOD_PATH=$(EXEC_DIR) modules_install
 	sudo $(MAKE) -C $(SGX_KERNEL_MODULE_PATH) $(LINUXKERNEL_BUILD_VARS) KERNELDIR=$(LINUXKERNEL_INSTALL_DIR) DISCIMAGE=$(EXEC_DIR) kbuild_install
+ifneq ($(wildcard $(__INSTALL_DIR)), dummy)
+	sudo rm $(EXEC_DIR)/lib/modules/*/build -f
+	sudo rm $(EXEC_DIR)/lib/modules/*/source -f
+endif
 else
 	$(error "No found install directory($(EXEC_DIR))!")
 endif

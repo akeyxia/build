@@ -1,5 +1,5 @@
-__GLSDK_VERSION=update
-#__GLSDK_VERSION: glsdk7.00, glsdk7.01, update, alpha, beta, ga
+__GLSDK_VERSION=psdkla
+#__GLSDK_VERSION: glsdk7.00, glsdk7.01, update, alpha, beta, ga, psdkla
 __LOCAL_VERSION=new
 #__LOCAL_VERSION: old, new
 __INSTALL_DIR=dummy
@@ -29,10 +29,16 @@ endif
 ifeq ($(__GLSDK_VERSION), ga)
 	PROJECT_SGX_DIR=/work/bsp/ga
 endif
+ifeq ($(__GLSDK_VERSION), psdkla)
+	PROJECT_SGX_DIR=/work/bsp/psdkla
+endif
 
 # Define target platform.
-# DEFAULT_LINUXKERNEL_CONFIG=omap2plus_defconfig
-DEFAULT_LINUXKERNEL_CONFIG=ip31_defconfig
+ifeq ($(__GLSDK_VERSION), psdkla)
+	DEFAULT_LINUXKERNEL_CONFIG=omap2plus_defconfig
+else
+	DEFAULT_LINUXKERNEL_CONFIG=ip31_defconfig
+endif
 
 # Cross compiler used for building linux and u-boot
 # begin modify++
@@ -71,6 +77,9 @@ endif
 ifeq ($(__GLSDK_VERSION), ga)
 	IP31_CODE_DIR=/work/bsp/ga
 endif
+ifeq ($(__GLSDK_VERSION), psdkla)
+	IP31_CODE_DIR=/work/bsp/psdkla
+endif
 # end modify++
 
 # For backwards compatibility
@@ -84,7 +93,11 @@ KERNEL_INSTALL_DIR=$(LINUXKERNEL_INSTALL_DIR)
 UBOOT_INSTALL_DIR=$(IP31_INSTALL_DIR)/u-boot
 
 # The directory that points to the SGX kernel module sources.
-SGX_KERNEL_MODULE_PATH=$(PROJECT_SGX_DIR)/omap5-sgx-ddk-linux/eurasia_km/eurasiacon/build/linux2/omap5430_linux
+ifeq ($(__GLSDK_VERSION), psdkla)
+	SGX_KERNEL_MODULE_PATH=$(PROJECT_SGX_DIR)/omap5-sgx-ddk-linux/eurasia_km/eurasiacon/build/linux2/omap_linux
+else
+	SGX_KERNEL_MODULE_PATH=$(PROJECT_SGX_DIR)/omap5-sgx-ddk-linux/eurasia_km/eurasiacon/build/linux2/omap5430_linux
+endif
 
 # Kernel/U-Boot build variables
 LINUXKERNEL_BUILD_VARS = ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE_PREFIX)
