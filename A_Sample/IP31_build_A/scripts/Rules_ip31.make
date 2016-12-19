@@ -2,8 +2,8 @@ __GLSDK_VERSION=psdkla
 #__GLSDK_VERSION: glsdk7.00, glsdk7.01, update, alpha, beta, ga, psdkla
 __LOCAL_VERSION=new
 #__LOCAL_VERSION: old, new
-__INSTALL_DIR=dummy
-#__INSTALL_DIR: media, dummy
+__INSTALL_DIR=media
+#__INSTALL_DIR: media, dummy, media_dummy
 __SRC_LOCATION=lan
 #__SRC_LOCATION: lan, wan
 
@@ -111,6 +111,10 @@ endif
 ifeq ($(__INSTALL_DIR), dummy)
 	EXEC_DIR=/home/saic/projects/bsp/INSTALL/install/dra7xx/rootfs
 	UBOOT_EXEC_DIR=/home/saic/projects/bsp/INSTALL/install/dra7xx/boot
+endif
+ifeq ($(__INSTALL_DIR), media_dummy)
+	EXEC_DIR=/media/saic/rootfs/install/dra7xx/rootfs
+	UBOOT_EXEC_DIR=/media/saic/boot/install/dra7xx/boot
 endif
 
 MLO_RAW_HEADER="data/EMMC_raw_header.dat"

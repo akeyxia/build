@@ -1,6 +1,6 @@
 include Rules_ip31.make
 
-.PHONY:	help enter_fastboot uboot kernelA kernelB dtbA dtbB module kernelA_all kernalB_all all imageA iamgeB module_clean clean
+.PHONY:	help enter_fastboot uboot kernelA kernelB dtbA dtbB module kernelA_all kernalB_all all imageA iamgeB module_clean media_dummy clean
 
 imageA: kernelA dtbA
 
@@ -70,6 +70,14 @@ module:
 	sudo adb push $(EXEC_DIR)/lib/modules/*/kernel/yunos/modules/alitks/* /usr/lib/modules/
 	sudo adb shell sync
 	sudo adb shell mount -o remount,ro /
+
+media_dummy:
+	sudo rm $(EXEC_DIR)/lib/modules/*/build -f
+	sudo rm $(EXEC_DIR)/lib/modules/*/source -f
+	sudo rm /media/saic/boot/install/* -rf
+	sync
+	sudo cp /home/saic/projects/bsp/INSTALL/install/dra7xx /media/saic/boot/install/ -a
+	sync
 
 module_clean:
 	sudo rm $(EXEC_DIR)/lib/modules/* -rf
