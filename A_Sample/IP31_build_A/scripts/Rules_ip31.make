@@ -1,8 +1,10 @@
-__GLSDK_VERSION=psdkla
+include common.inc
+
+__GLSDK_VERSION=update
 #__GLSDK_VERSION: glsdk7.00, glsdk7.01, update, alpha, beta, ga, psdkla
 __LOCAL_VERSION=new
 #__LOCAL_VERSION: old, new
-__INSTALL_DIR=media
+__INSTALL_DIR=dummy
 #__INSTALL_DIR: media, dummy, media_dummy
 __SRC_LOCATION=lan
 #__SRC_LOCATION: lan, wan
@@ -42,7 +44,11 @@ endif
 
 # Cross compiler used for building linux and u-boot
 # begin modify++
+ifeq ($(OS_VERSION),YUNOS_60)
+TOOLCHAIN_INSTALL_DIR=/work/tools/gcc-linaro-arm-linux-gnueabihf-4.9-glibc-2.20
+else
 TOOLCHAIN_INSTALL_DIR=/home/saic/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux
+endif
 # end modify++
 CROSS_COMPILE_PREFIX=$(TOOLCHAIN_INSTALL_DIR)/bin/arm-linux-gnueabihf-
 

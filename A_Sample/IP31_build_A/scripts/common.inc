@@ -1,0 +1,3 @@
+OS_VERSION=
+# None(YUNOS_40) or YUNOS_60
+

@@ -1,5 +1,7 @@
 #! /bin/bash
 
+source common.inc
+
 function helper()
 {
 	echo usage:
@@ -99,7 +101,7 @@ if [ ${BUILD_LINUX} -gt 0 ]; then
 		#if [ "$IP31_BOARD" == "ip31_user" ]; then
 		#	make linux_user IP31_BOARD=${2} -j${CPUS}
 		#else
-			make linux IP31_BOARD=${2} -j${CPUS}
+			make linux IP31_BOARD=${2} -j${CPUS} OS_VERSION=${OS_VERSION}
 		#fi
 	elif [ "$IP31_OP" = "install" ]; then
 		make linux_install IP31_BOARD=${2}
