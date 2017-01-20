@@ -43,10 +43,18 @@ help:
 #==============================================================================
 linux:
 	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) ARCH=arm $(DEFAULT_LINUXKERNEL_CONFIG)
-ifneq ($(__GLSDK_VERSION), psdkla)
-	cd $(LINUXKERNEL_INSTALL_DIR); pwd ; ./scripts/kconfig/merge_config.sh -m .config ip31_config/debug_options.cfg yunos/stub/yunos_ip31_defconfig
-else
+ifeq ($(__GLSDK_VERSION), psdkla)
 	cd $(LINUXKERNEL_INSTALL_DIR); pwd ; ./scripts/kconfig/merge_config.sh -m .config ip31_config/ip31.cfg ip31_config/debug_options.cfg yunos/stub/yunos_ip31_defconfig
+else
+ifeq ($(BUILD_MODE), user)
+	cp $(LINUXKERNEL_INSTALL_DIR)/yunos/modules/alisec/alisec_user.obj $(LINUXKERNEL_INSTALL_DIR)/yunos/modules/alisec/alisec.obj
+	cp $(LINUXKERNEL_INSTALL_DIR)/yunos/modules/alitks/alitks_user.obj $(LINUXKERNEL_INSTALL_DIR)/yunos/modules/alitks/alitks.obj
+	cd $(LINUXKERNEL_INSTALL_DIR); pwd ; ./scripts/kconfig/merge_config.sh -m .config yunos/stub/yunos_ip31_defconfig
+else
+	cd $(LINUXKERNEL_INSTALL_DIR); pwd ; git checkout yunos/modules/alisec/alisec.obj
+	cd $(LINUXKERNEL_INSTALL_DIR); pwd ; git checkout yunos/modules/alitks/alitks.obj
+	cd $(LINUXKERNEL_INSTALL_DIR); pwd ; ./scripts/kconfig/merge_config.sh -m .config ip31_config/debug_options.cfg yunos/stub/yunos_ip31_defconfig
+endif
 endif
 	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) olddefconfig ARCH=arm
 	$(MAKE) -C $(LINUXKERNEL_INSTALL_DIR) $(LINUXKERNEL_BUILD_VARS) zImage OS_VERSION=$(OS_VERSION)

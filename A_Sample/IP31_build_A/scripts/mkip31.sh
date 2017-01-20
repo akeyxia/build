@@ -98,11 +98,11 @@ fi
 
 if [ ${BUILD_LINUX} -gt 0 ]; then
 	if [ "$IP31_OP" = "build" ]; then
-		#if [ "$IP31_BOARD" == "ip31_user" ]; then
-		#	make linux_user IP31_BOARD=${2} -j${CPUS}
-		#else
-			make linux IP31_BOARD=${2} -j${CPUS} OS_VERSION=${OS_VERSION}
-		#fi
+		if [ "$IP31_BOARD" == "ip31_user" ]; then
+			make linux IP31_BOARD=${2} -j${CPUS} OS_VERSION=${OS_VERSION} BUILD_MODE=user
+		else
+			make linux IP31_BOARD=${2} -j${CPUS} OS_VERSION=${OS_VERSION} BUILD_MODE=eng
+		fi
 	elif [ "$IP31_OP" = "install" ]; then
 		make linux_install IP31_BOARD=${2}
 	else
