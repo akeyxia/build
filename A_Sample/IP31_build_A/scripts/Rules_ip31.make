@@ -109,6 +109,9 @@ endif
 LINUXKERNEL_BUILD_VARS = ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE_PREFIX)
 UBOOT_BUILD_VARS = CROSS_COMPILE=$(CROSS_COMPILE_PREFIX)
 
+# Update Kernel build variables
+LINUXKERNEL_BUILD_VARS += YUNOS_VERSION=$(OS_VERSION)
+
 # Where to copy the resulting executables
 ifeq ($(__INSTALL_DIR), media)
 	EXEC_DIR=/media/saic/rootfs
